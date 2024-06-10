@@ -1,13 +1,14 @@
 
 window.onload = async () => {
-    
-   let users = getWithExpiry("utenti")
- // let users = localStorage.getItem("utenti")
+
+    // Inizializza users come stringa vuota se getWithExpiry restituisce null 
+    let users = getWithExpiry("utenti") || ""
+    // let users = localStorage.getItem("utenti")
      
      
     if (users) {
         // se ci sono dati nel localStorage, usali per riempire la tabella
-        document.getElementById("utenti").innerHTML = users;
+        document.getElementById("utenti").innerHTML = users
     } else {
         // altrimenti effettua la fetch e salva i dati nel localStorage
         const response = await fetch("https://jsonplaceholder.typicode.com/users")
@@ -29,7 +30,7 @@ window.onload = async () => {
         document.getElementById("utenti").innerHTML = users
         
     }
-};
+}
 
 async function filter() {
     // ottengo i valori del form
@@ -39,8 +40,9 @@ async function filter() {
     const response = await fetch("https://jsonplaceholder.typicode.com/users")
     const utenti = await response.json()
 
-    let users = "";
-
+    let users = ""
+    
+    
     utenti.forEach((user) => {
 
         // ottengo il valore da controllare
@@ -55,9 +57,9 @@ async function filter() {
                     <td>${user.username}</td>
                     <td>${user.email}</td>
                 </tr>
-            `;
+            `
         }
-    });
+    })
 
     document.getElementById("utenti").innerHTML = users
 
@@ -75,11 +77,13 @@ function setWitchExpiry(key, value, ttl) {
 }
 
 function getWithExpiry(key){
+    
     const itemStr= localStorage.getItem(key)
+
     if(!itemStr){
         return null
     }
-
+    
     const item = JSON.parse(itemStr)
     const now = new Date()
 
